@@ -1,6 +1,7 @@
-from .work_page import WorkPage
-from .locators import WorkPageLocators, OrderPageLocators
+from work_page import WorkPage
+from locators import WorkPageLocators, OrderPageLocators
 import datetime as dt
+
 
 class OrderPage(WorkPage):
     def should_be_create_order_button(self):
@@ -22,7 +23,10 @@ class OrderPage(WorkPage):
         assert self.is_not_element_present(*OrderPageLocators.ORDER_SAVE_BTN), 'Order save button is presented, but it shouldn\'t be'
         assert self.is_not_element_present(*OrderPageLocators.ORDER_CLOSE_BTN), 'Order close button is presented, but it shouldn\'t be'
 
-    def add_order(self, number, date=None, shop='Magazine №2', provider='Firma Regress'):
+    def click_create_order(self):
+        self.browser.find_element(*OrderPageLocators.CREATE_ORDER_BTN).click()
+
+    def create_order(self, number, date=dt.date.today(), shop='Magazine №2', provider='Firma Regress'):
         self.browser.find_element(*OrderPageLocators.CREATE_ORDER_BTN).click()
         self.browser.find_element(*OrderPageLocators.ORDER_NUMBER_INPUT).send_keys(number)
         if date:
@@ -50,40 +54,68 @@ class OrderPage(WorkPage):
         else:
             raise AssertionError('Bad decidion (not in ("cancel", "leave", "forceclose"))')
 
-    def check_order_info(self):
-
-
+    def check_order_info(self, expected_number, expected_date=dt.date.today(), expected_provider='Firma Regress',
+                         expected_netto='0', expected_status='Draft'):
+        actual_number = self.browser.find_element(*OrderPageLocators.ORDER_INFO_NUMBER).text
+        assert actual_number == expected_number, f'Actual number: {actual_number}, expected: {expected_number}'
+        actual_date = self.browser.find_element(*OrderPageLocators.ORDER_INFO_DATE).text
+        assert actual_date == expected_date, f'Actual date: {actual_date}, expected: {expected_date}'
+        actual_provider = self.browser.find_element(*OrderPageLocators.ORDER_INFO_PROVIDER).text
+        assert actual_provider == expected_provider, f'Actual provider: {actual_provider}, expected: {expected_provider}'
+        actual_netto = self.browser.find_element(*OrderPageLocators.ORDER_INFO_NETTO).text
+        assert actual_netto == expected_netto, f'Actual netto: {actual_netto}, expected: {expected_netto}'
+        actual_status = self.browser.find_element(*OrderPageLocators.ORDER_INFO_STATUS).text
+        assert actual_status == expected_status, f'Actual status: {actual_status}, expected: {expected_status}'
 
     def should_be_order_draft(self):
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT), 'Order draft number input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT), 'Order draft date input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT), 'Order draft shop input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT), 'Order draft provider input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DOWNLOAD_BTN), 'Order draft download button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_CANCEL_BTN), 'Order draft cancel button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_FINISH_BTN), 'Order draft finish button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN), 'Order draft save button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_ADD_BTN), 'Order draft add elem button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), 'Order draft delete elem button is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT), \
+            'Order draft number input is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT), \
+            'Order draft date input is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT), \
+            'Order draft shop input is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT), \
+            'Order draft provider input is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DOWNLOAD_BTN), \
+            'Order draft download button is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_CANCEL_BTN), \
+            'Order draft cancel button is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_FINISH_BTN), \
+            'Order draft finish button is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN), \
+            'Order draft save button is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_ADD_BTN), \
+            'Order draft add elem button is not presented'
+        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), \
+            'Order draft delete elem button is not presented'
 
     def should_not_be_order_draft(self):
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT), 'Order draft number input is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT), 'Order draft date input is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT), 'Order draft shop input is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT), 'Order draft provider input is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DOWNLOAD_BTN), 'Order draft download button is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_CANCEL_BTN), 'Order draft cancel button is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_FINISH_BTN), 'Order draft finish button is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN), 'Order draft save button is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_ADD_BTN), 'Order draft add elem button is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), 'Order draft delete elem button is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT), \
+            'Order draft number input is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT), \
+            'Order draft date input is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT), \
+            'Order draft shop input is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT), \
+            'Order draft provider input is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DOWNLOAD_BTN), \
+            'Order draft download button is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_CANCEL_BTN), \
+            'Order draft cancel button is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_FINISH_BTN), \
+            'Order draft finish button is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN), \
+            'Order draft save button is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_ADD_BTN), \
+            'Order draft add elem button is not presented'
+        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), \
+            'Order draft delete elem button is not presented'
 
-    def check_order_draft_info(self, expected_number, expected_date=None, expected_shop='Magazine №2', expected_provider='Firma Regress'):
+    def check_order_draft_info(self, expected_number, expected_date=dt.date.today(),
+                               expected_shop='Magazine №2', expected_provider='Firma Regress'):
         actual_number = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).text
         assert actual_number == expected_number, f'Actual number: {actual_number}, expected: {expected_number}'
         actual_date = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT).text
-        if not expected_date:
-            expected_date = dt.date.today()
         assert actual_date == expected_date, f'Actual date: {actual_date}, expected: {expected_date}'
         actual_shop = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT).text
         assert actual_shop == expected_shop, f'Actual number: {actual_shop}, expected: {expected_shop}'

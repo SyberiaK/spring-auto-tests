@@ -1,11 +1,16 @@
 import pytest
 import os
-from .pages.auth_page import AuthPage
-from .pages.order_page import OrderPage
+import time
+from pages.auth_page import AuthPage
+from pages.order_page import OrderPage
+
+page = ...
 
 
 @pytest.fixture(scope='function', autouse=True)
 def setup(browser):
+    global page
+
     login_link = 'http://u1609007.isp.regruhosting.ru/#/auth'
     page = AuthPage(browser, login_link)
     page.open()
@@ -14,8 +19,43 @@ def setup(browser):
     password = os.getenv('SPRING_ADMIN_PASSWORD')
     page.auth(email, password)
     page.should_not_be_auth_page()
-
-
-def test_can_add_order(browser):
     link = 'http://u1609007.isp.regruhosting.ru/#'
     page = OrderPage(browser, link)
+    page.open()
+
+
+def test_can_see_order_create_button(browser):
+    page.should_be_create_order_button()
+
+
+def test_can_see_order_creation(browser):
+    page.should_be_create_order_button()
+    page.click_create_order()
+    page.should_be_order_creation()
+
+
+def test_cant_see_order_creation(browser):
+    page.should_be_create_order_button()
+    page.should_not_be_order_creation()
+
+
+class TestCreationOrder:
+    @pytest.fixture(scope="function", autouse=True)
+    def setup(self, browser):
+        page.should_be_create_order_button()
+        self.order_number = f'AUTOTEST_{int(time.time())}'
+        page.create_order(self.order_number)
+
+    def test_can_create_order(self, browser):
+        pass
+
+    def test_can_see_order_draft_after_creation(self, browser):
+        page.should_be_order_draft()
+
+    def test_expected_order_info_equals_actual(self, browser):
+        page.open()
+        page.check_order_info(self.order_number)
+
+    def test_expected_order_info_equals_actual_in_draft(self, browser):
+        page.create_order(self.order_number)
+        page.check_order_draft_info(self.order_number)

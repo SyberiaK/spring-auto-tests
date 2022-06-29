@@ -36,7 +36,11 @@ class OrderPageLocators:
     ORDER_SAVE_BTN = (By.ID, 'order-save-btn')
     ORDER_CLOSE_BTN = (By.ID, 'order-close-btn')
 
-    ORDER_INFO = (By.XPATH, '//tbody/tr/')
+    ORDER_INFO_NUMBER = (By.XPATH, '//tbody/tr/td[1]//span/span')
+    ORDER_INFO_DATE = (By.XPATH, '//tbody/tr/td[2]//span/span')
+    ORDER_INFO_PROVIDER = (By.XPATH, '//tbody/tr/td[3]//span/span')
+    ORDER_INFO_NETTO = (By.XPATH, '//tbody/tr/td[4]//span/span')
+    ORDER_INFO_STATUS = (By.XPATH, '//tbody/tr/td[5]//span/span')
 
     ORDER_DRAFT_NUMBER_INPUT = (By.ID, 'order-draft-number-input')
     ORDER_DRAFT_DATE_INPUT = (By.ID, 'order-draft-date-input')
