@@ -26,7 +26,7 @@ class OrderPage(WorkPage):
     def click_create_order(self):
         self.browser.find_element(*OrderPageLocators.CREATE_ORDER_BTN).click()
 
-    def create_order(self, number, date=dt.date.today(), shop='Magazine №2', provider='Firma Regress'):
+    def create_order(self, number, date=dt.date.today().strftime("%d.%m.%Y"), shop='Magazine №2', provider='Firma Regress'):
         self.browser.find_element(*OrderPageLocators.CREATE_ORDER_BTN).click()
         self.browser.find_element(*OrderPageLocators.ORDER_NUMBER_INPUT).send_keys(number)
         if date:
@@ -52,9 +52,9 @@ class OrderPage(WorkPage):
         elif dec == 'forceclose':
             self.browser.find_element(*WorkPageLocators.MSGBOX_FORCECLOSE_BTN).click()
         else:
-            raise AssertionError('Bad decidion (not in ("cancel", "leave", "forceclose"))')
+            raise AssertionError('Wrong decision (decisions avaliable: cancel, leave, forceclose)')
 
-    def check_order_info(self, expected_number, expected_date=dt.date.today(), expected_provider='Firma Regress',
+    def check_order_info(self, expected_number, expected_date=dt.date.today().strftime("%d.%m.%Y"), expected_provider='Firma Regress',
                          expected_netto='0', expected_status='Draft'):
         actual_number = self.browser.find_element(*OrderPageLocators.ORDER_INFO_NUMBER).text
         assert actual_number == expected_number, f'Actual number: {actual_number}, expected: {expected_number}'
@@ -111,8 +111,8 @@ class OrderPage(WorkPage):
         assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), \
             'Order draft delete elem button is not presented'
 
-    def check_order_draft_info(self, expected_number, expected_date=dt.date.today(),
-                               expected_shop='Magazine №2', expected_provider='Firma Regress'):
+    def check_order_draft_info(self, expected_number: str, expected_date=dt.date.today().strftime("%d.%m.%Y"),
+                               expected_shop: str = 'Magazine №2', expected_provider: str = 'Firma Regress'):
         actual_number = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).text
         assert actual_number == expected_number, f'Actual number: {actual_number}, expected: {expected_number}'
         actual_date = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT).text
@@ -122,3 +122,32 @@ class OrderPage(WorkPage):
         actual_provider = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT).text
         assert actual_provider == expected_provider, f'Actual number: {actual_provider}, expected: {expected_provider}'
 
+    def edit_order_field(self, field: str, data: str):
+        if field == 'number':
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).clear().send_keys(data)
+        elif field == 'date':
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).clear().send_keys(data)
+        elif field == 'shop':
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT).click()
+            for i, v in self.browser.find_elements(*OrderPageLocators.ORDER_DRAFT_SHOP_DROPDOWN_CONTENT_SPAN):
+                if v.text == data:
+                    self.browser.find_elements(*OrderPageLocators.ORDER_DRAFT_SHOP_DROPDOWN_CONTENT)[i].click()
+                    break
+            else:
+                raise AssertionError(f'No shop was found with this name: {data}')
+        elif field == 'provider':
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT).click()
+            for i, v in self.browser.find_elements(*OrderPageLocators.ORDER_DRAFT_PROVIDER_DROPDOWN_CONTENT_SPAN):
+                if v.text == data:
+                    self.browser.find_elements(*OrderPageLocators.ORDER_DRAFT_PROVIDER_DROPDOWN_CONTENT)[i].click()
+                    break
+            else:
+                raise AssertionError(f'No provider was found with this name: {data}')
+        else:
+            raise AssertionError(f'Wrong field (fields avaliable: number, date, shop, provider)')
+
+    def save_order(self):
+        self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN).click()
+
+    def go_to_order(self):
+        self.browser.find_element(*OrderPageLocators.ORDER_INFO).click()
