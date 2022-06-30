@@ -26,6 +26,8 @@ def setup(browser):
     page.open()
 
 
+@pytest.mark.order
+@pytest.mark.order_basis
 class TestOrderBasis:
     def test_can_see_order_create_button(self, browser):
         page.should_be_create_order_button()
@@ -52,6 +54,8 @@ class TestOrderBasis:
         page.should_be_order_creation()
 
 
+@pytest.mark.order
+@pytest.mark.order_creation
 class TestOrderCreation:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
@@ -137,6 +141,8 @@ class TestOrderCreation:
         same_page.check_order_draft_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
 
 
+@pytest.mark.element
+@pytest.mark.element_basis
 class TestElementBasis:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
@@ -169,6 +175,8 @@ class TestElementBasis:
         page.should_be_element_creation()
 
 
+@pytest.mark.element
+@pytest.mark.element_creation
 class TestElementCreation:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
