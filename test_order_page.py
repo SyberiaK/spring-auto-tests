@@ -1,17 +1,18 @@
 import pytest
 import os
 import time
-from pages.auth_page import AuthPage
-from pages.order_page import OrderPage
+from .pages.auth_page import AuthPage
+from .pages.order_page import OrderPage
 
-page = OrderPage(..., ...)
+main_link = 'http://u1609007.isp.regruhosting.ru/#'
+login_link = 'http://u1609007.isp.regruhosting.ru/#/auth'
+# page = OrderPage(browser, ...)
 
 
 @pytest.fixture(scope='function', autouse=True)
 def setup(browser):
     global page
 
-    login_link = 'http://u1609007.isp.regruhosting.ru/#/auth'
     page = AuthPage(browser, login_link)
     page.open()
 
@@ -19,11 +20,14 @@ def setup(browser):
     email = os.getenv('SPRING_ADMIN_MAIL')
     password = os.getenv('SPRING_ADMIN_PASSWORD')
     page.auth(email, password)
-    page.should_not_be_auth_page()
 
-    link = 'http://u1609007.isp.regruhosting.ru/#'
-    page = OrderPage(browser, link)
+    page = OrderPage(browser, main_link)
     page.open()
+
+
+@pytest.mark.begin
+def test_begin(browser):
+    page.should_be_create_order_button()
 
 
 @pytest.mark.order
@@ -57,7 +61,7 @@ class TestOrderBasis:
 @pytest.mark.order
 @pytest.mark.order_creation
 class TestOrderCreation:
-    @pytest.fixture(scope="function", autouse=True)
+    @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
         page.should_be_create_order_button()
         self.order_number = f'AUTOTEST_{int(time.time())}'
@@ -84,10 +88,8 @@ class TestOrderCreation:
         page.edit_order_field('provider', provider)
         page.save_order()
 
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.check_order_info(order_number, date, provider)
+        OrderPage(browser, main_link).open()
+        page.check_order_info(order_number, date, provider)
 
     def test_edit_and_save_see_draft(self, browser):
         order_number = f'EDITED_{self.order_number}'
@@ -101,11 +103,10 @@ class TestOrderCreation:
         page.edit_order_field('provider', provider)
         page.save_order()
 
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
+        same_page = OrderPage(browser, main_link)
         same_page.open()
-        same_page.go_to_order()
-        same_page.check_order_draft_info(order_number, date, shop, provider)
+        page.go_to_order()
+        page.check_order_draft_info(order_number, date, shop, provider)
 
     def test_edit_and_not_save_see_summary(self, browser):
         order_number = f'EDITED_{self.order_number}'
@@ -117,10 +118,8 @@ class TestOrderCreation:
         page.edit_order_field('provider', provider)
         # page.save_order()    # не сохраняем!
 
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.check_order_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
+        OrderPage(browser, main_link).open()
+        page.check_order_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
 
     def test_edit_and_not_save_see_draft(self, browser):
         order_number = f'EDITED_{self.order_number}'
@@ -134,17 +133,15 @@ class TestOrderCreation:
         page.edit_order_field('provider', provider)
         # page.save_order()    # не сохраняем!
 
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
-        same_page.check_order_draft_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
+        page.check_order_draft_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
 
 
 @pytest.mark.element
 @pytest.mark.element_basis
 class TestElementBasis:
-    @pytest.fixture(scope="function", autouse=True)
+    @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
         page.should_be_create_order_button()
         self.order_number = f'AUTOTEST_{int(time.time())}'
@@ -178,7 +175,7 @@ class TestElementBasis:
 @pytest.mark.element
 @pytest.mark.element_creation
 class TestElementCreation:
-    @pytest.fixture(scope="function", autouse=True)
+    @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
         page.should_be_create_order_button()
         self.order_number = f'AUTOTEST_{int(time.time())}'
@@ -195,38 +192,30 @@ class TestElementCreation:
 
     def test_save_and_reload(self, browser):
         page.save_order()
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.should_be_any_element()
 
     def test_not_save_and_reload(self, browser):
         # page.save_order()  # не сохраняем!
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.should_not_be_any_element()  # поэтому элементов не должно быть
 
     def test_delete_save_and_reload(self, browser):
         page.go_to_delete_element()
         page.delete_element('delete')
         page.save_order()
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.should_not_be_any_element()
 
     def test_delete_save_and_reload(self, browser):
         page.go_to_delete_element()
         page.delete_element('delete')
         # page.save_order()  # не сохраняем!
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.should_not_be_any_element()  # поэтому элемент должен остаться
 
     def test_can_cancel_deletion(self, browser):
@@ -244,10 +233,8 @@ class TestElementCreation:
         page.create_element()
         page.count_elements(3)
         page.save_order()
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.count_elements(3)
 
     def test_can_add_few_elements_and_not_save(self, browser):
@@ -255,10 +242,8 @@ class TestElementCreation:
         page.create_element()
         page.count_elements(3)
         # page.save_order()  # не сохраняем!
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.should_not_be_any_element()  # поэтому элементов не должно быть
 
     def test_can_add_few_elements_and_save_then_add_few_elements_and_save(self, browser):
@@ -271,10 +256,8 @@ class TestElementCreation:
         page.create_element()
         page.count_elements(6)
         page.save_order()
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.count_elements(6)
 
     def test_can_add_few_elements_and_save_then_add_few_elements_and_not_save(self, browser):
@@ -287,8 +270,6 @@ class TestElementCreation:
         page.create_element()
         page.count_elements(6)
         # page.save_order()  # не сохраняем!
-        link = 'http://u1609007.isp.regruhosting.ru/#'
-        same_page = OrderPage(browser, link)
-        same_page.open()
-        same_page.go_to_order()
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
         page.count_elements(3)  # поэтому элементов должно быть 3

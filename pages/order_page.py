@@ -1,5 +1,5 @@
-from work_page import WorkPage
-from locators import WorkPageLocators, OrderPageLocators
+from .work_page import WorkPage
+from .locators import WorkPageLocators, OrderPageLocators
 import datetime as dt
 
 

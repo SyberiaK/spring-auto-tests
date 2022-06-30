@@ -18,7 +18,7 @@ class WorkPageLocators:
 class AuthPageLocators:
     EMAIL_INPUT = (By.CSS_SELECTOR, '.email input')
     PASSWORD_INPUT = (By.CSS_SELECTOR, '.password input')
-    LOGIN_SUBMIT = (By.CSS_SELECTOR, 'button .login')
+    LOGIN_BTN = (By.CSS_SELECTOR, 'button.el-button.el-button--default.login')
 
 
 class OrderPageLocators:
