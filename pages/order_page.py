@@ -1,6 +1,9 @@
-from .work_page import WorkPage
-from .locators import WorkPageLocators, OrderPageLocators
 import datetime as dt
+import time
+
+from .work_page import WorkPage
+from selenium.webdriver.common.keys import Keys
+from .locators import WorkPageLocators, OrderPageLocators
 
 
 class OrderPage(WorkPage):
@@ -13,15 +16,30 @@ class OrderPage(WorkPage):
         assert self.is_element_present(*OrderPageLocators.ORDER_SHOP_INPUT), 'Order shop input is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_PROVIDER_INPUT), 'Order provider input is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_SAVE_BTN), 'Order save button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_CLOSE_BTN), 'Order close button is not presented'
 
-    def should_not_be_order_creation(self):
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_NUMBER_INPUT), 'Order number input is presented, but it shouldn\'t be'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DATE_INPUT), 'Order date input is presented, but it shouldn\'t be'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_SHOP_INPUT), 'Order shop input is presented, but it shouldn\'t be'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_PROVIDER_INPUT), 'Order provider input is presented, but it shouldn\'t be'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_SAVE_BTN), 'Order save button is presented, but it shouldn\'t be'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_CLOSE_BTN), 'Order close button is presented, but it shouldn\'t be'
+    def should_not_be_order_creation(self, pres_or_dis: str):
+        if pres_or_dis == 'pres':
+            assert self.is_not_element_present(
+                *OrderPageLocators.ORDER_NUMBER_INPUT), 'Order number input is presented, but it shouldn\'t be'
+            assert self.is_not_element_present(
+                *OrderPageLocators.ORDER_DATE_INPUT), 'Order date input is presented, but it shouldn\'t be'
+            assert self.is_not_element_present(
+                *OrderPageLocators.ORDER_SHOP_INPUT), 'Order shop input is presented, but it shouldn\'t be'
+            assert self.is_not_element_present(
+                *OrderPageLocators.ORDER_PROVIDER_INPUT), 'Order provider input is presented, but it shouldn\'t be'
+            assert self.is_not_element_present(
+                *OrderPageLocators.ORDER_SAVE_BTN), 'Order save button is presented, but it shouldn\'t be'
+        elif pres_or_dis == 'dis':
+            assert self.is_disappeared(
+                *OrderPageLocators.ORDER_NUMBER_INPUT), 'Order number input is presented, but it shouldn\'t be'
+            assert self.is_disappeared(
+                *OrderPageLocators.ORDER_DATE_INPUT), 'Order date input is presented, but it shouldn\'t be'
+            assert self.is_disappeared(
+                *OrderPageLocators.ORDER_SHOP_INPUT), 'Order shop input is presented, but it shouldn\'t be'
+            assert self.is_disappeared(
+                *OrderPageLocators.ORDER_PROVIDER_INPUT), 'Order provider input is presented, but it shouldn\'t be'
+            assert self.is_disappeared(
+                *OrderPageLocators.ORDER_SAVE_BTN), 'Order save button is presented, but it shouldn\'t be'
 
     def go_to_create_order(self):
         self.browser.find_element(*OrderPageLocators.CREATE_ORDER_BTN).click()
@@ -31,19 +49,24 @@ class OrderPage(WorkPage):
                      date: str = dt.date.today().strftime("%d.%m.%Y"),
                      shop: str = 'Magazine №2',
                      provider: str = 'Firma Regress'):
-        self.browser.find_element(*OrderPageLocators.CREATE_ORDER_BTN).click()
         self.browser.find_element(*OrderPageLocators.ORDER_NUMBER_INPUT).send_keys(number)
         if date:
+            self.browser.find_element(*OrderPageLocators.ORDER_DATE_INPUT).send_keys(Keys.CONTROL + "a")
             self.browser.find_element(*OrderPageLocators.ORDER_DATE_INPUT).send_keys(date)
+            self.browser.find_element(*OrderPageLocators.ORDER_NUMBER_INPUT).click()
+            time.sleep(.5)
         self.browser.find_element(*OrderPageLocators.ORDER_SHOP_INPUT).click()
-        for i, v in self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN):
-            if v.text == shop:
+        time.sleep(.5)
+        for i in range(len(self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == shop:
                 self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No shop found with this name: {shop}')
-        for i, v in self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN):
-            if v.text == provider:
+        self.browser.find_element(*OrderPageLocators.ORDER_PROVIDER_INPUT).click()
+        time.sleep(.5)
+        for i in range(len(self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == provider:
                 self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
@@ -59,10 +82,8 @@ class OrderPage(WorkPage):
             self.browser.find_element(*WorkPageLocators.MSGBOX_CANCEL_BTN).click()
         elif dec == 'leave':
             self.browser.find_element(*WorkPageLocators.MSGBOX_LEAVE_BTN).click()
-        elif dec == 'forceclose':
-            self.browser.find_element(*WorkPageLocators.MSGBOX_FORCECLOSE_BTN).click()
         else:
-            raise AssertionError('Wrong decision (decisions avaliable: cancel, leave, forceclose)')
+            raise AssertionError('Wrong decision (decisions avaliable: cancel, leave)')
 
     def check_last_order_after_cancel(self,
                                       number: str):
@@ -74,7 +95,7 @@ class OrderPage(WorkPage):
                          expected_date: str = dt.date.today().strftime("%d.%m.%Y"),
                          expected_provider: str = 'Firma Regress',
                          expected_netto: str = '0',
-                         expected_status: str = 'Draft'):
+                         expected_status: str = 'Entwurf'):
         actual_number = self.browser.find_element(*OrderPageLocators.ORDER_INFO_NUMBER).text
         actual_date = self.browser.find_element(*OrderPageLocators.ORDER_INFO_DATE).text
         actual_provider = self.browser.find_element(*OrderPageLocators.ORDER_INFO_PROVIDER).text
@@ -87,7 +108,7 @@ class OrderPage(WorkPage):
         assert actual_netto == expected_netto, f'Actual netto: {actual_netto}, expected: {expected_netto}'
         assert actual_status == expected_status, f'Actual status: {actual_status}, expected: {expected_status}'
 
-        if actual_status == 'Finished':
+        if actual_status == 'Abgesagt':
             self.go_to_order()
             finish_btn_state = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_FINISH_BTN).get_attribute(
                 "disabled")
@@ -121,8 +142,6 @@ class OrderPage(WorkPage):
             'Order draft save button is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_ADD_BTN), \
             'Order draft add elem button is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), \
-            'Order draft delete elem button is not presented'
 
     def should_not_be_order_draft(self):
         assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT), \
@@ -143,14 +162,13 @@ class OrderPage(WorkPage):
             'Order draft save button is not presented'
         assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_ADD_BTN), \
             'Order draft add elem button is not presented'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN), \
-            'Order draft delete elem button is not presented'
 
     def check_order_draft_info(self,
                                expected_number: str,
                                expected_date=dt.date.today().strftime("%d.%m.%Y"),
                                expected_shop: str = 'Magazine №2',
                                expected_provider: str = 'Firma Regress'):
+        time.sleep(1)
         actual_number = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).text
         actual_date = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT).text
         actual_shop = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT).text
@@ -161,31 +179,37 @@ class OrderPage(WorkPage):
         assert actual_shop == expected_shop, f'Actual number: {actual_shop}, expected: {expected_shop}'
         assert actual_provider == expected_provider, f'Actual number: {actual_provider}, expected: {expected_provider}'
 
-    def edit_order_field(self,
-                         field: str,
-                         data: str):
-        if field == 'number':
-            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).clear().send_keys(data)
-        elif field == 'date':
-            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).clear().send_keys(data)
-        elif field == 'shop':
+    def edit_order(self,
+                   number: str = None,
+                   date: str = None,
+                   shop: str = None,
+                   provider: str = None):
+        if not (number or date or shop or provider):
+            raise AssertionError(f'No edit')
+        if number:
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).send_keys(Keys.CONTROL + "a")
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT).send_keys(date)
+        if date:
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT).send_keys(Keys.CONTROL + "a")
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DATE_INPUT).send_keys(date)
+        if shop:
             self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT).click()
-            for i, v in self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN):
-                if v.text == data:
+            time.sleep(.5)
+            for i in range(len(self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == shop:
                     self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
-                raise AssertionError(f'No shop found with this name: {data}')
-        elif field == 'provider':
+                raise AssertionError(f'No shop found with this name: {shop}')
+        if provider:
             self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT).click()
-            for i, v in self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN):
-                if v.text == data:
+            time.sleep(.5)
+            for i in range(len(self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == provider:
                     self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
-                raise AssertionError(f'No provider found with this name: {data}')
-        else:
-            raise AssertionError(f'Wrong field (fields avaliable: number, date, shop, provider)')
+                raise AssertionError(f'No provider found with this name: {provider}')
 
     def save_order(self):
         self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN).click()
@@ -204,35 +228,57 @@ class OrderPage(WorkPage):
 
     def should_be_element_creation(self):
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_TYPE_INPUT), 'Element type input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_PRODUCT_INPUT), 'Element product input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_COUNT_INPUT), 'Element count input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT), 'Element account input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_PRODUCT_INPUT), 'Element product input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_COUNT_INPUT), 'Element count input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT), 'Element account input is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_MVZ_INPUT), 'Element MVZ input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_INNER_INPUT), 'Element inner order input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_PRICE_INPUT), 'Element price input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_STORAGE_INPUT), 'Element storage input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_INNER_INPUT), 'Element inner order input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_PRICE_INPUT), 'Element price input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_STORAGE_INPUT), 'Element storage input is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_ROW_INPUT), 'Element row input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_STACK_INPUT), 'Element stack input is not presented'
-        assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_BOARD_INPUT), 'Element board input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_STACK_INPUT), 'Element stack input is not presented'
+        assert self.is_element_present(
+            *OrderPageLocators.ORDER_ELEM_BOARD_INPUT), 'Element board input is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_CELL_INPUT), 'Element cell input is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_SAVE_BTN), 'Element save button is not presented'
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_CLOSE_BTN), 'Element close button is not presented'
 
     def should_not_be_element_creation(self):
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_TYPE_INPUT), 'Element type input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_PRODUCT_INPUT), 'Element product input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_COUNT_INPUT), 'Element count input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT), 'Element account input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_MVZ_INPUT), 'Element MVZ input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_INNER_INPUT), 'Element inner order input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_PRICE_INPUT), 'Element price input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_STORAGE_INPUT), 'Element storage input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_ROW_INPUT), 'Element row input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_STACK_INPUT), 'Element stack input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_BOARD_INPUT), 'Element board input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_CELL_INPUT), 'Element cell input is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_SAVE_BTN), 'Element save button is presented, but it shouldn\'t'
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_CLOSE_BTN), 'Element close button is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_TYPE_INPUT), 'Element type input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_PRODUCT_INPUT), 'Element product input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_COUNT_INPUT), 'Element count input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT), 'Element account input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_MVZ_INPUT), 'Element MVZ input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_INNER_INPUT), 'Element inner order input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_PRICE_INPUT), 'Element price input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_STORAGE_INPUT), 'Element storage input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_ROW_INPUT), 'Element row input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_STACK_INPUT), 'Element stack input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_BOARD_INPUT), 'Element board input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_CELL_INPUT), 'Element cell input is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_SAVE_BTN), 'Element save button is presented, but it shouldn\'t'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_CLOSE_BTN), 'Element close button is presented, but it shouldn\'t'
 
     def go_to_create_element(self):
         self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_ADD_BTN).click()
@@ -378,7 +424,8 @@ class OrderPage(WorkPage):
         assert self.is_element_present(*OrderPageLocators.ORDER_ELEM_INFO), f'No element found'
 
     def should_not_be_any_element(self):
-        assert self.is_not_element_present(*OrderPageLocators.ORDER_ELEM_INFO), f'Element was found, but it shouldn\'t be'
+        assert self.is_not_element_present(
+            *OrderPageLocators.ORDER_ELEM_INFO), f'Element was found, but it shouldn\'t be'
 
     def go_to_delete_element(self):
         self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_DELETE_ELEM_BTN).click()
@@ -389,11 +436,47 @@ class OrderPage(WorkPage):
             self.browser.find_element(*WorkPageLocators.MSGBOX_CANCEL_BTN).click()
         elif dec == 'delete':
             self.browser.find_element(*WorkPageLocators.MSGBOX_DELETE_BTN).click()
-        elif dec == 'forceclose':
-            self.browser.find_element(*WorkPageLocators.MSGBOX_FORCECLOSE_BTN).click()
         else:
-            raise AssertionError('Wrong decision (decisions avaliable: cancel, leave, forceclose)')
+            raise AssertionError('Wrong decision (decisions avaliable: cancel, leave)')
 
     def count_elements(self, count: int):
         elements = self.browser.find_elements(*OrderPageLocators.ORDER_ELEM_INFO)
         assert len(elements) == count, f'Actual number of elements is {len(elements)}, expected: {count}'
+
+    def edit_element(self, ttype: str = None,
+                     product: str = None,
+                     count: int = None,
+                     account: str = None,
+                     mvz: str = None,
+                     inner: str = None,
+                     price: float = None,
+                     storage: str = None,
+                     row: str = None,
+                     stack: str = None,
+                     board: str = None,
+                     cell: str = None):
+        if not (ttype or product or count or account or mvz
+                or inner or price or storage or row or stack or board or cell):
+            raise AssertionError(f'No edit')
+        if ttype:
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).clear().send_keys(number)
+        if date:
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_NUMBER_INPUT).clear().send_keys(date)
+        if shop:
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SHOP_INPUT).click()
+            for i, v in self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN):
+                if v.text == shop:
+                    self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT)[i].click()
+                    break
+            else:
+                raise AssertionError(f'No shop found with this name: {shop}')
+        if provider:
+            self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_PROVIDER_INPUT).click()
+            for i, v in self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT_SPAN):
+                if v.text == provider:
+                    self.browser.find_elements(*OrderPageLocators.DROPDOWN_CONTENT)[i].click()
+                    break
+            else:
+                raise AssertionError(f'No provider found with this name: {provider}')
+        else:
+            raise AssertionError(f'Wrong field (fields avaliable: number, date, shop, provider)')

@@ -9,37 +9,36 @@ class BasePageLocators:
 
 
 class WorkPageLocators:
-    MSGBOX_CANCEL_BTN = (By.ID, 'msgbox-cancel-btn')
-    MSGBOX_LEAVE_BTN = (By.ID, 'msgbox-leave-btn')
-    MSGBOX_DELETE_BTN = (By.ID, 'msgbox-delete-btn')
-    MSGBOX_FORCECLOSE_BTN = (By.ID, 'msgbox-forceclose-btn')
+    MSGBOX_CANCEL_BTN = (By.CSS_SELECTOR, '.msgbox-cancel-btn')
+    MSGBOX_LEAVE_BTN = (By.CSS_SELECTOR, '.msgbox-leave-btn')
+    MSGBOX_DELETE_BTN = (By.CSS_SELECTOR, '.el-button--small.is-plain')
 
 
 class AuthPageLocators:
     EMAIL_INPUT = (By.CSS_SELECTOR, '.email input')
     PASSWORD_INPUT = (By.CSS_SELECTOR, '.password input')
-    LOGIN_BTN = (By.CSS_SELECTOR, 'button.el-button.el-button--default.login')
+    LOGIN_BTN = (By.CSS_SELECTOR, 'button.login')
 
 
 class OrderPageLocators:
     CREATE_ORDER_BTN = (By.ID, 'order-create-btn')
 
     # order creation
-    ORDER_NUMBER_INPUT = (By.ID, 'order-number-input')
-    ORDER_DATE_INPUT = (By.ID, 'order-date-input')
+    ORDER_NUMBER_INPUT = (By.CSS_SELECTOR, '#order-number-input input')
+    ORDER_DATE_INPUT = (By.CSS_SELECTOR, '#order-date-input input')
 
-    ORDER_SHOP_INPUT = (By.ID, 'order-shop-input')
+    ORDER_SHOP_INPUT = (By.CSS_SELECTOR, '#order-shop-input input')
     # ORDER_SHOP_DROPDOWN = (By.ID, 'order-shop-dropdown')
     # ORDER_SHOP_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-shop-dropdown li')
     # ORDER_SHOP_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-shop-dropdown li > span')
 
-    ORDER_PROVIDER_INPUT = (By.ID, 'order-provider-input')
+    ORDER_PROVIDER_INPUT = (By.CSS_SELECTOR, '#order-provider-input input')
     # ORDER_PROVIDER_DROPDOWN = (By.ID, 'order-provider-dropdown')
     # ORDER_PROVIDER_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-provider-dropdown li')
     # ORDER_PROVIDER_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-provider-dropdown li > span')
 
     ORDER_SAVE_BTN = (By.ID, 'order-save-btn')
-    ORDER_CLOSE_BTN = (By.ID, 'order-close-btn')
+    ORDER_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
 
     # order info
     ORDER_INFO = (By.CSS_SELECTOR, 'tbody tr')
@@ -50,15 +49,15 @@ class OrderPageLocators:
     ORDER_INFO_STATUS = (By.XPATH, '//tbody/tr[1]/td[5]//span/span')
 
     # order draft
-    ORDER_DRAFT_NUMBER_INPUT = (By.ID, 'order-draft-number-input')
-    ORDER_DRAFT_DATE_INPUT = (By.ID, 'order-draft-date-input')
+    ORDER_DRAFT_NUMBER_INPUT = (By.CSS_SELECTOR, '#order-draft-number-input input')
+    ORDER_DRAFT_DATE_INPUT = (By.CSS_SELECTOR, '#order-draft-date-input input')
 
-    ORDER_DRAFT_SHOP_INPUT = (By.ID, 'order-draft-shop-input')
+    ORDER_DRAFT_SHOP_INPUT = (By.CSS_SELECTOR, '#order-draft-shop-input input')
     # ORDER_DRAFT_SHOP_DROPDOWN = (By.ID, 'order-draft-shop-dropdown')
     # ORDER_DRAFT_SHOP_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-draft-shop-dropdown li')
     # ORDER_DRAFT_SHOP_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-draft-shop-dropdown li > span')
 
-    ORDER_DRAFT_PROVIDER_INPUT = (By.ID, 'order-draft-provider-input')
+    ORDER_DRAFT_PROVIDER_INPUT = (By.CSS_SELECTOR, '#order-draft-provider-input input')
     # ORDER_DRAFT_PROVIDER_DROPDOWN = (By.ID, 'order-provider-dropdown')
     # ORDER_DRAFT_PROVIDER_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-provider-dropdown li')
     # ORDER_DRAFT_PROVIDER_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-provider-dropdown li > span')
@@ -71,7 +70,7 @@ class OrderPageLocators:
     ORDER_DRAFT_DELETE_ELEM_BTN = (By.XPATH, '//tbody/tr[1]/td[11]/div/div')
 
     # order element creation
-    ORDER_ELEM_TYPE_INPUT = (By.ID, 'order-elem-type-input')
+    ORDER_ELEM_TYPE_INPUT = (By.CSS_SELECTOR, '#order-elem-type-input.select-trigger')
     # ORDER_ELEM_TYPE_DROPDOWN = (By.ID, 'order-elem-type-dropdown')
     # ORDER_ELEM_TYPE_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-type-dropdown li')
     # ORDER_ELEM_TYPE_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-type-dropdown li > span')
@@ -141,4 +140,4 @@ class OrderPageLocators:
     ORDER_ELEM_INFO_UNIT = (By.XPATH, '//tbody/tr[1]/td[10]//span/span')
 
     DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
-    DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полец
+    DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей

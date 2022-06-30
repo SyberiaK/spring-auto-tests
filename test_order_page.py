@@ -5,27 +5,24 @@ from .pages.auth_page import AuthPage
 from .pages.order_page import OrderPage
 
 main_link = 'http://u1609007.isp.regruhosting.ru/#'
-login_link = 'http://u1609007.isp.regruhosting.ru/#/auth'
-# page = OrderPage(browser, ...)
+# login_link = 'http://u1609007.isp.regruhosting.ru/#/auth'
 
 
 @pytest.fixture(scope='function', autouse=True)
 def setup(browser):
     global page
 
-    page = AuthPage(browser, login_link)
+    page = AuthPage(browser, main_link)
     page.open()
-
     page.should_be_auth_page()
     email = os.getenv('SPRING_ADMIN_MAIL')
     password = os.getenv('SPRING_ADMIN_PASSWORD')
     page.auth(email, password)
 
     page = OrderPage(browser, main_link)
-    page.open()
 
 
-@pytest.mark.begin
+# @pytest.mark.begin
 def test_begin(browser):
     page.should_be_create_order_button()
 
@@ -43,13 +40,14 @@ class TestOrderBasis:
 
     def test_cant_see_order_creation(self, browser):
         page.should_be_create_order_button()
-        page.should_not_be_order_creation()
+        page.should_not_be_order_creation("pres")
 
     def test_can_cancel_order_creation(self, browser):
         page.go_to_create_order()
         page.go_to_cancel_order()
         page.cancel('leave')
-        page.should_not_be_order_creation()
+        page.browser.implicitly_wait(0)
+        page.should_not_be_order_creation("dis")
 
     def test_can_go_back_to_order_creation(self, browser):
         page.go_to_create_order()
@@ -63,18 +61,35 @@ class TestOrderBasis:
 class TestOrderCreation:
     @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
+        global page
+
+        page = AuthPage(browser, main_link)
+        page.open()
+        page.should_be_auth_page()
+        email = os.getenv('SPRING_ADMIN_MAIL')
+        password = os.getenv('SPRING_ADMIN_PASSWORD')
+        page.auth(email, password)
+
+        page = OrderPage(browser, main_link)
+
         page.should_be_create_order_button()
         self.order_number = f'AUTOTEST_{int(time.time())}'
+        page.go_to_create_order()
+        time.sleep(.5)
         page.create_order(self.order_number)
+        time.sleep(2)
 
     def test_can_see_order_draft_after_creation(self, browser):
         page.should_be_order_draft()
-        page.should_not_be_order_creation()
+        page.browser.implicitly_wait(0)
+        page.should_not_be_order_creation("dis")
 
     def test_expected_order_info_equals_actual(self, browser):
         page.open()
+        time.sleep(1)
         page.check_order_info(self.order_number)
 
+    @pytest.mark.begin
     def test_expected_order_info_equals_actual_in_draft(self, browser):
         page.check_order_draft_info(self.order_number)
 
@@ -83,12 +98,13 @@ class TestOrderCreation:
         date = '30.03.2002'
         provider = '123123'
 
-        page.edit_order_field('number', order_number)
-        page.edit_order_field('date', date)
-        page.edit_order_field('provider', provider)
+        page.edit_order(number=order_number,
+                        date=date,
+                        provider=provider)
         page.save_order()
 
         OrderPage(browser, main_link).open()
+        time.sleep(1)
         page.check_order_info(order_number, date, provider)
 
     def test_edit_and_save_see_draft(self, browser):
@@ -97,15 +113,17 @@ class TestOrderCreation:
         shop = 'Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1'
         provider = '123123'
 
-        page.edit_order_field('number', order_number)
-        page.edit_order_field('date', date)
-        page.edit_order_field('shop', shop)
-        page.edit_order_field('provider', provider)
+        page.edit_order(number=order_number,
+                        date=date,
+                        shop=shop,
+                        provider=provider)
         page.save_order()
-
+        time.sleep(1)
         same_page = OrderPage(browser, main_link)
         same_page.open()
+        time.sleep(1)
         page.go_to_order()
+        time.sleep(1)
         page.check_order_draft_info(order_number, date, shop, provider)
 
     def test_edit_and_not_save_see_summary(self, browser):
@@ -113,12 +131,13 @@ class TestOrderCreation:
         date = '30.03.2002'
         provider = '123123'
 
-        page.edit_order_field('number', order_number)
-        page.edit_order_field('date', date)
-        page.edit_order_field('provider', provider)
+        page.edit_order(number=order_number,
+                        date=date,
+                        provider=provider)
         # page.save_order()    # не сохраняем!
 
         OrderPage(browser, main_link).open()
+        time.sleep(1)
         page.check_order_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
 
     def test_edit_and_not_save_see_draft(self, browser):
@@ -127,14 +146,16 @@ class TestOrderCreation:
         shop = 'Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1 Shop 1'
         provider = '123123'
 
-        page.edit_order_field('number', order_number)
-        page.edit_order_field('date', date)
-        page.edit_order_field('shop', shop)
-        page.edit_order_field('provider', provider)
+        page.edit_order(number=order_number,
+                        date=date,
+                        shop=shop,
+                        provider=provider)
         # page.save_order()    # не сохраняем!
 
         OrderPage(browser, main_link).open()
+        time.sleep(1)
         page.go_to_order()
+        time.sleep(1)
         page.check_order_draft_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
 
 
@@ -143,8 +164,20 @@ class TestOrderCreation:
 class TestElementBasis:
     @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
+        global page
+
+        page = AuthPage(browser, main_link)
+        page.open()
+        page.should_be_auth_page()
+        email = os.getenv('SPRING_ADMIN_MAIL')
+        password = os.getenv('SPRING_ADMIN_PASSWORD')
+        page.auth(email, password)
+
+        page = OrderPage(browser, main_link)
+
         page.should_be_create_order_button()
         self.order_number = f'AUTOTEST_{int(time.time())}'
+        page.go_to_create_order()
         page.create_order(self.order_number)
 
     def test_can_add_element(self, browser):
@@ -177,10 +210,23 @@ class TestElementBasis:
 class TestElementCreation:
     @pytest.fixture(scope='function', autouse=True)
     def setup(self, browser):
+        global page
+
+        page = AuthPage(browser, main_link)
+        page.open()
+        page.should_be_auth_page()
+        email = os.getenv('SPRING_ADMIN_MAIL')
+        password = os.getenv('SPRING_ADMIN_PASSWORD')
+        page.auth(email, password)
+
+        page = OrderPage(browser, main_link)
+
         page.should_be_create_order_button()
         self.order_number = f'AUTOTEST_{int(time.time())}'
+        page.go_to_create_order()
         page.create_order(self.order_number)
         page.should_be_order_draft()
+        page.go_to_create_element()
         page.create_element()
 
     def test_can_see_order_draft_after_creation(self, browser):
@@ -269,6 +315,14 @@ class TestElementCreation:
         page.create_element()
         page.create_element()
         page.count_elements(6)
+        # page.save_order()  # не сохраняем!
+        OrderPage(browser, main_link).open()
+        page.go_to_order()
+        page.count_elements(3)  # поэтому элементов должно быть 3
+
+    def test_edit_element_and_save(self, browser):
+        page.save_order()
+
         # page.save_order()  # не сохраняем!
         OrderPage(browser, main_link).open()
         page.go_to_order()
