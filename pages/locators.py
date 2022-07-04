@@ -11,7 +11,8 @@ class BasePageLocators:
 class WorkPageLocators:
     MSGBOX_CANCEL_BTN = (By.CSS_SELECTOR, '.msgbox-cancel-btn')
     MSGBOX_LEAVE_BTN = (By.CSS_SELECTOR, '.msgbox-leave-btn')
-    MSGBOX_DELETE_BTN = (By.CSS_SELECTOR, '.el-button--small.is-plain')
+    MSGBOX_CANCEL_ELEM_BTN = (By.CSS_SELECTOR, '.el-button--default.el-button--small')
+    MSGBOX_DELETE_ELEM_BTN = (By.CSS_SELECTOR, '.el-button--small.is-plain')
 
 
 class AuthPageLocators:
@@ -129,15 +130,15 @@ class OrderPageLocators:
 
     # order element info
     ORDER_ELEM_INFO = (By.CSS_SELECTOR, 'div.AppTable tbody tr')
-    ORDER_ELEM_INFO_TYPE = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[2]//span/span')
-    ORDER_ELEM_INFO_ACCOUNT = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[3]//span/span')
-    ORDER_ELEM_INFO_MVZ = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[4]//span/span')
-    ORDER_ELEM_INFO_INNER = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[5]//span/span')
-    ORDER_ELEM_INFO_PRODUCT = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[6]//span/span')
-    ORDER_ELEM_INFO_COUNT = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[7]//span/span')
-    ORDER_ELEM_INFO_NETTO = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[8]//span/span')
-    ORDER_ELEM_INFO_PRICE = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[9]//span/span')
-    ORDER_ELEM_INFO_UNIT = (By.XPATH, '//div[@class=".AppTable"]//tbody/tr[1]/td[10]//span/span')
+    ORDER_ELEM_INFO_TYPE = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[2]//span/span')
+    ORDER_ELEM_INFO_ACCOUNT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[3]//span/span')
+    ORDER_ELEM_INFO_MVZ = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[4]//span/span')
+    ORDER_ELEM_INFO_INNER = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[5]//span/span')
+    ORDER_ELEM_INFO_PRODUCT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[6]//span/span')
+    ORDER_ELEM_INFO_COUNT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[7]//span/span')
+    ORDER_ELEM_INFO_NETTO = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[8]//span/span')
+    ORDER_ELEM_INFO_PRICE = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[9]//span/span')
+    ORDER_ELEM_INFO_UNIT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[10]//span/span')
 
     DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
     DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей
