@@ -11,8 +11,8 @@ class BasePageLocators:
 class WorkPageLocators:
     MSGBOX_CANCEL_BTN = (By.CSS_SELECTOR, '.msgbox-cancel-btn')
     MSGBOX_LEAVE_BTN = (By.CSS_SELECTOR, '.msgbox-leave-btn')
-    MSGBOX_CANCEL_ELEM_BTN = (By.CSS_SELECTOR, '.el-button--default.el-button--small')
-    MSGBOX_DELETE_ELEM_BTN = (By.CSS_SELECTOR, '.el-button--small.is-plain')
+    MSGBOX2_CANCEL_BTN = (By.CSS_SELECTOR, '.el-button--default.el-button--small')
+    MSGBOX2_DELETE_BTN = (By.CSS_SELECTOR, '.el-button--small.is-plain')
 
 
 class AuthPageLocators:
@@ -52,79 +52,27 @@ class OrderPageLocators:
     # order draft
     ORDER_DRAFT_NUMBER_INPUT = (By.CSS_SELECTOR, '#order-draft-number-input input')
     ORDER_DRAFT_DATE_INPUT = (By.CSS_SELECTOR, '#order-draft-date-input input')
-
     ORDER_DRAFT_SHOP_INPUT = (By.CSS_SELECTOR, '#order-draft-shop-input input')
-    # ORDER_DRAFT_SHOP_DROPDOWN = (By.ID, 'order-draft-shop-dropdown')
-    # ORDER_DRAFT_SHOP_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-draft-shop-dropdown li')
-    # ORDER_DRAFT_SHOP_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-draft-shop-dropdown li > span')
-
     ORDER_DRAFT_PROVIDER_INPUT = (By.CSS_SELECTOR, '#order-draft-provider-input input')
-    # ORDER_DRAFT_PROVIDER_DROPDOWN = (By.ID, 'order-provider-dropdown')
-    # ORDER_DRAFT_PROVIDER_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-provider-dropdown li')
-    # ORDER_DRAFT_PROVIDER_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-provider-dropdown li > span')
-
     ORDER_DRAFT_DOWNLOAD_BTN = (By.ID, 'order-draft-download-btn')
     ORDER_DRAFT_CANCEL_BTN = (By.ID, 'order-draft-cancel-btn')
     ORDER_DRAFT_FINISH_BTN = (By.ID, 'order-draft-finish-btn')
     ORDER_DRAFT_SAVE_BTN = (By.ID, 'order-draft-save-btn')
     ORDER_DRAFT_ADD_BTN = (By.ID, 'order-draft-add-btn')
-    ORDER_DRAFT_DELETE_ELEM_BTN = (By.XPATH, '//tbody/tr[1]/td[11]/div/div')
 
     # order element creation
     ORDER_ELEM_TYPE_INPUT = (By.CSS_SELECTOR, '#order-elem-type-input input')
-    # ORDER_ELEM_TYPE_DROPDOWN = (By.ID, 'order-elem-type-dropdown')
-    # ORDER_ELEM_TYPE_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-type-dropdown li')
-    # ORDER_ELEM_TYPE_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-type-dropdown li > span')
-
     ORDER_ELEM_PRODUCT_INPUT = (By.CSS_SELECTOR, '#order-elem-product-input input')
-    # ORDER_ELEM_PRODUCT_DROPDOWN = (By.ID, 'order-elem-product-dropdown')
-    # ORDER_ELEM_PRODUCT_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-product-dropdown li')
-    # ORDER_ELEM_PRODUCT_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-product-dropdown li > span')
-
     ORDER_ELEM_COUNT_INPUT = (By.CSS_SELECTOR, '#order-elem-count-input input')
-
     ORDER_ELEM_ACCOUNT_INPUT = (By.CSS_SELECTOR, '#order-elem-account-input input')
-    # ORDER_ELEM_ACCOUNT_DROPDOWN = (By.ID, 'order-elem-account-dropdown')
-    # ORDER_ELEM_ACCOUNT_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-account-dropdown li')
-    # ORDER_ELEM_ACCOUNT_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-account-dropdown li > span')
-
     ORDER_ELEM_MVZ_INPUT = (By.CSS_SELECTOR, '#order-elem-mvz-input input')
-    # ORDER_ELEM_MVZ_DROPDOWN = (By.ID, 'order-elem-mvz-dropdown')
-    # ORDER_ELEM_MVZ_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-mvz-dropdown li')
-    # ORDER_ELEM_MVZ_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-mvz-dropdown li > span')
-
     ORDER_ELEM_INNER_INPUT = (By.CSS_SELECTOR, '#order-elem-inner-input input')
-    # ORDER_ELEM_INNER_DROPDOWN = (By.ID, 'order-elem-inner-dropdown')
-    # ORDER_ELEM_INNER_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-inner-dropdown li')
-    # ORDER_ELEM_INNER_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-inner-dropdown li > span')
-
     ORDER_ELEM_PRICE_INPUT = (By.CSS_SELECTOR, '#order-elem-price-input input')
-
     ORDER_ELEM_STORAGE_INPUT = (By.CSS_SELECTOR, '#order-elem-storage-input input')
-    # ORDER_ELEM_STORAGE_DROPDOWN = (By.ID, 'order-elem-storage-dropdown')
-    # ORDER_ELEM_STORAGE_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-storage-dropdown li')
-    # ORDER_ELEM_STORAGE_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-storage-dropdown li > span')
-
     ORDER_ELEM_ROW_INPUT = (By.CSS_SELECTOR, '#order-elem-row-input input')
-    # ORDER_ELEM_ROW_DROPDOWN = (By.ID, 'order-elem-row-dropdown')
-    # ORDER_ELEM_ROW_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-row-dropdown li')
-    # ORDER_ELEM_ROW_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-row-dropdown li > span')
-
     ORDER_ELEM_STACK_INPUT = (By.CSS_SELECTOR, '#order-elem-stack-input input')
-    # ORDER_ELEM_STACK_DROPDOWN = (By.ID, 'order-elem-stack-dropdown')
-    # ORDER_ELEM_STACK_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-stack-dropdown li')
-    # ORDER_ELEM_STACK_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-stack-dropdown li > span')
-
     ORDER_ELEM_BOARD_INPUT = (By.CSS_SELECTOR, '#order-elem-board-input input')
-    # ORDER_ELEM_BOARD_DROPDOWN = (By.ID, 'order-elem-board-dropdown')
-    # ORDER_ELEM_BOARD_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-board-dropdown li')
-    # ORDER_ELEM_BOARD_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-board-dropdown li > span')
-
     ORDER_ELEM_CELL_INPUT = (By.CSS_SELECTOR, '#order-elem-cell-input input')
-    # ORDER_ELEM_CELL_DROPDOWN = (By.ID, 'order-elem-cell-dropdown')
-    # ORDER_ELEM_CELL_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-elem-cell-dropdown li')
-    # ORDER_ELEM_CELL_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-elem-cell-dropdown li > span')
-
     ORDER_ELEM_SAVE_BTN = (By.ID, 'order-elem-save-btn')
     ORDER_ELEM_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
 
@@ -139,6 +87,56 @@ class OrderPageLocators:
     ORDER_ELEM_INFO_NETTO = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[8]//span/span')
     ORDER_ELEM_INFO_PRICE = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[9]//span/span')
     ORDER_ELEM_INFO_UNIT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[10]//span/span')
+    ORDER_DRAFT_DELETE_ELEM_BTN = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[11]/div/div')
+
+    DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
+    DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей
+
+
+class DeliveryPageLocators:
+    CREATE_DELIVERY_BTN = (By.ID, 'delivery-create-btn')
+
+    # delivery creation
+    DELIVERY_DATE_INPUT = (By.CSS_SELECTOR, '#delivery-date-input input')
+    DELIVERY_DATE_INPUT_LABEL = (By.CSS_SELECTOR, '#delivery-date-input label')
+
+    DELIVERY_RESPONSIBLE_INPUT = (By.CSS_SELECTOR, "#delivery-responsible-input input")
+    DELIVERY_SAVE_BTN = (By.ID, 'delivery-save-btn')
+    DELIVERY_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
+
+    # delivery draft
+    DELIVERY_DRAFT_DATE_INPUT = (By.CSS_SELECTOR, '#delivery-draft-date-input input')
+    DELIVERY_DRAFT_RESPONSIBLE_INPUT = (By.CSS_SELECTOR, '#delivery-draft-responsible-input input')
+    DELIVERY_DRAFT_SAVE_BTN = (By.ID, 'delivery-draft-save-btn')
+    DELIVERY_DRAFT_ADD_BTN = (By.ID, 'delivery-draft-add-btn')
+
+    # delivery info
+    DELIVERY_INFO = (By.CSS_SELECTOR, 'tbody tr')
+    DELIVERY_INFO_DATE = (By.XPATH, '//tbody/tr[1]/td[2]//span/span')
+    DELIVERY_INFO_RESPONSIBLE = (By.XPATH, '//tbody/tr[1]/td[3]//span/span')
+    DELIVERY_DELETE_BTN = (By.XPATH, '//tbody/tr[1]/td[4]/div[@class="cell"]')
+
+    # delivery element creation
+    DELIVERY_ELEM_PRODUCT_INPUT = (By.CSS_SELECTOR, '#delivery-elem-product-input input')
+    DELIVERY_ELEM_COUNT_INPUT = (By.CSS_SELECTOR, '#delivery-elem-count-input input')
+    DELIVERY_ELEM_STORAGE_INPUT = (By.CSS_SELECTOR, '#delivery-elem-storage-input input')
+    DELIVERY_ELEM_ROW_INPUT = (By.CSS_SELECTOR, '#delivery-elem-row-input input')
+    DELIVERY_ELEM_STACK_INPUT = (By.CSS_SELECTOR, '#delivery-elem-stack-input input')
+    DELIVERY_ELEM_BOARD_INPUT = (By.CSS_SELECTOR, '#delivery-elem-board-input input')
+    DELIVERY_ELEM_CELL_INPUT = (By.CSS_SELECTOR, '#delivery-elem-cell-input input')
+    DELIVERY_ELEM_SAVE_BTN = (By.ID, 'delivery-elem-save-btn')
+    DELIVERY_ELEM_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
+
+    # delivery element info
+    DELIVERY_ELEM_INFO = (By.CSS_SELECTOR, 'div.AppTable tbody tr')
+    DELIVERY_ELEM_INFO_PRODUCT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[2]//span/span')
+    DELIVERY_ELEM_INFO_COUNT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[3]//span/span')
+    DELIVERY_ELEM_INFO_STORAGE = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[4]//span/span')
+    DELIVERY_ELEM_INFO_ROW = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[5]//span/span')
+    DELIVERY_ELEM_INFO_STACK = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[6]//span/span')
+    DELIVERY_ELEM_INFO_BOARD = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[7]//span/span')
+    DELIVERY_ELEM_INFO_CELL = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[8]//span/span')
+    DELIVERY_DRAFT_DELETE_ELEM_BTN = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[9]/div/div')
 
     DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
     DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей
