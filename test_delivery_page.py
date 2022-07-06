@@ -41,14 +41,14 @@ class TestDeliveryBasis:
 
     def test_can_cancel_delivery_creation(self, browser):
         page.go_to_create_delivery()
-        page.go_to_cancel_delivery()
+        page.go_to_cancel()
         page.cancel('leave')
         page.browser.implicitly_wait(0)
         page.should_not_be_delivery_creation("dis")
 
     def test_can_go_back_to_delivery_creation(self, browser):
         page.go_to_create_delivery()
-        page.go_to_cancel_delivery()
+        page.go_to_cancel()
         page.cancel('cancel')
         page.should_be_delivery_creation()
 
@@ -108,7 +108,7 @@ class TestDeliveryCreation:
 
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         time.sleep(1)
         self.page.check_delivery_draft_info(*sett)
 
@@ -130,7 +130,7 @@ class TestDeliveryCreation:
 
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         time.sleep(1)
         self.page.check_delivery_draft_info(self.delivery_number)    # поэтому сверяем со старыми данными (дефолтными)
 
@@ -241,7 +241,7 @@ class TestDeliveryElementCreation:
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.should_be_any_element()
 
     # @pytest.mark.begin
@@ -249,7 +249,7 @@ class TestDeliveryElementCreation:
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         time.sleep(2)
         self.page.check_element_info()
 
@@ -257,7 +257,7 @@ class TestDeliveryElementCreation:
         # page.save_delivery()  # не сохраняем!
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.browser.implicitly_wait(0)
         self.page.should_not_be_any_element()  # поэтому элементов не должно быть
 
@@ -268,7 +268,7 @@ class TestDeliveryElementCreation:
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.should_not_be_any_element()
 
     def test_delete_not_save_and_reload(self, browser):
@@ -278,7 +278,7 @@ class TestDeliveryElementCreation:
         # page.save_delivery()  # не сохраняем!
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.should_be_any_element()  # поэтому элемент должен остаться
 
     def test_can_cancel_deletion(self, browser):
@@ -302,7 +302,7 @@ class TestDeliveryElementCreation:
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.count_elements(3)
 
     def test_can_add_few_elements_and_not_save(self, browser):
@@ -316,7 +316,7 @@ class TestDeliveryElementCreation:
         # page.save_delivery()  # не сохраняем!
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.should_not_be_any_element()  # поэтому элементов не должно быть
 
     def test_can_add_few_elements_and_save_then_add_few_elements_and_save(self, browser):
@@ -342,7 +342,7 @@ class TestDeliveryElementCreation:
         time.sleep(1)
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.count_elements(6)
 
     def test_can_add_few_elements_and_save_then_add_few_elements_and_not_save(self, browser):
@@ -368,7 +368,7 @@ class TestDeliveryElementCreation:
         # page.save_delivery()  # не сохраняем!
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.count_elements(3)  # поэтому элементов должно быть 3
 
     def test_can_edit_element(self):
@@ -429,7 +429,7 @@ class TestDeliveryElementCreation:
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
 
@@ -445,7 +445,7 @@ class TestDeliveryElementCreation:
         # page.save_delivery()  # не сохраняем!
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.check_element_info()  # поэтому сверяем со старыми данными (дефолтными)
 
     # @pytest.mark.begin
@@ -465,7 +465,7 @@ class TestDeliveryElementCreation:
         self.page.check_element_info()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         self.page.check_element_info()
 
     @pytest.mark.begin
@@ -486,7 +486,7 @@ class TestDeliveryElementCreation:
         self.page.check_element_info()
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
-        self.page.go_to_delivery()
+        self.page.go_to_work()
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
 

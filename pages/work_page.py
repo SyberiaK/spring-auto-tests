@@ -3,6 +3,13 @@ from .locators import WorkPageLocators
 
 
 class WorkPage(BasePage):
+
+    def go_to_work(self):
+        self.browser.find_element(*WorkPageLocators.WORK_INFO).click()
+
+    def go_to_cancel(self):
+        self.browser.find_element(*WorkPageLocators.WORK_CLOSE_BTN).click()
+
     def cancel(self,
                dec: str):
         if dec == 'cancel':

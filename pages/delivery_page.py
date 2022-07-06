@@ -49,9 +49,6 @@ class DeliveryPage(WorkPage):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_RESPONSIBLE_INPUT).send_keys(responsible)
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_SAVE_BTN).click()
 
-    def go_to_cancel_delivery(self):
-        self.browser.find_element(*DeliveryPageLocators.DELIVERY_CLOSE_BTN).click()
-
     def check_last_delivery(self, responsible: str, is_here: bool = True):
         actual_responsible = self.browser.find_element(*DeliveryPageLocators.DELIVERY_INFO_RESPONSIBLE).text
         if is_here:
@@ -118,9 +115,6 @@ class DeliveryPage(WorkPage):
     def save_delivery(self):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_DRAFT_SAVE_BTN).click()
         time.sleep(2)
-
-    def go_to_delivery(self):
-        self.browser.find_element(*DeliveryPageLocators.DELIVERY_INFO).click()
 
     def go_to_delete_delivery(self):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_DELETE_BTN).click()
@@ -207,9 +201,9 @@ class DeliveryPage(WorkPage):
                        cell: str = 'Cell 1'):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_PRODUCT_INPUT).click()
         time.sleep(2)
-        for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT))):
-            if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].text == product:
-                self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].text == product:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No product found with this name: {product}')
@@ -219,45 +213,45 @@ class DeliveryPage(WorkPage):
 
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STORAGE_INPUT).click()
         time.sleep(2)
-        for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT))):
-            if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].text == storage:
-                self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].text == storage:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No storage found with this name: {storage}')
 
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_ROW_INPUT).click()
         time.sleep(2)
-        for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-            if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == row:
-                self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == row:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No row found with this name: {row}')
 
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STACK_INPUT).click()
         time.sleep(2)
-        for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-            if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == stack:
-                self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == stack:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No stack found with this name: {stack}')
 
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_BOARD_INPUT).click()
         time.sleep(2)
-        for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-            if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == board:
-                self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == board:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No board found with this name: {board}')
 
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CELL_INPUT).click()
         time.sleep(2)
-        for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-            if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == cell:
-                self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == cell:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                 break
         else:
             raise AssertionError(f'No cell found with this name: {cell}')
@@ -265,7 +259,7 @@ class DeliveryPage(WorkPage):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_SAVE_BTN).click()
 
     def go_to_cancel_element(self):
-        self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CLOSE_BTN).click()
+        self.browser.find_element(*WorkPageLocators.WORK_CLOSE_BTN).click()
 
     def check_element_info(self,
                            expected_product: str = 'Dichtung DN 65, NBR (blau), 71x81x5,0mmDichtung DN 65, NBR (blau),'
@@ -293,21 +287,21 @@ class DeliveryPage(WorkPage):
         assert actual_cell == expected_cell, f'Actual cell: {actual_cell}, expected: {expected_cell}'
 
     def should_be_any_element(self):
-        assert self.is_element_present(*DeliveryPageLocators.DELIVERY_ELEM_INFO), f'No element found'
+        assert self.is_element_present(*WorkPageLocators.WORK_ELEM_INFO), f'No element found'
 
     def should_not_be_any_element(self):
         assert self.is_not_element_present(
-            *DeliveryPageLocators.DELIVERY_ELEM_INFO), f'Element was found, but it shouldn\'t be'
+            *WorkPageLocators.WORK_ELEM_INFO), f'Element is presented, but it shouldn\'t be'
 
     def go_to_delete_element(self):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_DRAFT_DELETE_ELEM_BTN).click()
 
     def count_elements(self, count: int):
-        elements = self.browser.find_elements(*DeliveryPageLocators.DELIVERY_ELEM_INFO)
+        elements = self.browser.find_elements(*WorkPageLocators.WORK_ELEM_INFO)
         assert len(elements) == count, f'Actual number of elements is {len(elements)}, expected: {count}'
 
     def go_to_edit_element(self):
-        self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO).click()
+        self.browser.find_element(*WorkPageLocators.WORK_ELEM_INFO).click()
 
     def edit_element(self,
                      product: str = None,
@@ -324,9 +318,9 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_PRODUCT_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_PRODUCT_INPUT).click()
             time.sleep(2)
-            for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT))):
-                if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].text == product:
-                    self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].text == product:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
                 raise AssertionError(f'No product found with this name: {product}')
@@ -340,9 +334,9 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STORAGE_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STORAGE_INPUT).click()
             time.sleep(2)
-            for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT))):
-                if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].text == storage:
-                    self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].text == storage:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
                 raise AssertionError(f'No storage found with this name: {storage}')
@@ -351,9 +345,9 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_ROW_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_ROW_INPUT).click()
             time.sleep(2)
-            for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-                if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == row:
-                    self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == row:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
                 raise AssertionError(f'No row found with this name: {row}')
@@ -362,9 +356,9 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STACK_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STACK_INPUT).click()
             time.sleep(2)
-            for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-                if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == stack:
-                    self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == stack:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
                 raise AssertionError(f'No stack found with this name: {stack}')
@@ -373,9 +367,9 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_BOARD_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_BOARD_INPUT).click()
             time.sleep(2)
-            for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-                if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == board:
-                    self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == board:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
                 raise AssertionError(f'No board found with this name: {board}')
@@ -384,9 +378,9 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CELL_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CELL_INPUT).click()
             time.sleep(2)
-            for i in range(len(self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN))):
-                if self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == cell:
-                    self.browser.find_elements(*DeliveryPageLocators.DROPDOWN_CONTENT)[i].click()
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == cell:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
                     break
             else:
                 raise AssertionError(f'No cell found with this name: {cell}')

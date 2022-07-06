@@ -40,14 +40,14 @@ class TestOrderBasis:
 
     def test_can_cancel_order_creation(self, browser):
         page.go_to_create_order()
-        page.go_to_cancel_order()
+        page.go_to_cancel()
         page.cancel('leave')
         page.browser.implicitly_wait(0)
         page.should_not_be_order_creation("dis")
 
     def test_can_go_back_to_order_creation(self, browser):
         page.go_to_create_order()
-        page.go_to_cancel_order()
+        page.go_to_cancel()
         page.cancel('cancel')
         page.should_be_order_creation()
 
@@ -105,7 +105,7 @@ class TestOrderCreation:
 
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.check_order_draft_info(*sett)
 
     def test_edit_and_not_save_see_summary(self, browser):
@@ -129,7 +129,7 @@ class TestOrderCreation:
 
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.check_order_draft_info(self.order_number)    # поэтому сверяем со старыми данными (дефолтными)
 
 
@@ -217,7 +217,7 @@ class TestOrderElementCreation:
         self.page.save_order()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.should_be_any_element()
 
     @pytest.mark.begin
@@ -225,7 +225,7 @@ class TestOrderElementCreation:
         self.page.save_order()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         time.sleep(2)
         self.page.check_element_info()
 
@@ -233,7 +233,7 @@ class TestOrderElementCreation:
         # page.save_order()  # не сохраняем!
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.browser.implicitly_wait(0)
         self.page.should_not_be_any_element()  # поэтому элементов не должно быть
 
@@ -244,7 +244,7 @@ class TestOrderElementCreation:
         self.page.save_order()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.should_not_be_any_element()
 
     def test_delete_not_save_and_reload(self, browser):
@@ -254,7 +254,7 @@ class TestOrderElementCreation:
         # page.save_order()  # не сохраняем!
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.should_be_any_element()  # поэтому элемент должен остаться
 
     def test_can_cancel_deletion(self, browser):
@@ -282,7 +282,7 @@ class TestOrderElementCreation:
         self.page.save_order()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.count_elements(3)
 
     def test_can_add_few_elements_and_not_save(self, browser):
@@ -296,7 +296,7 @@ class TestOrderElementCreation:
         # page.save_order()  # не сохраняем!
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.should_not_be_any_element()  # поэтому элементов не должно быть
 
     def test_can_add_few_elements_and_save_then_add_few_elements_and_save(self, browser):
@@ -322,7 +322,7 @@ class TestOrderElementCreation:
         time.sleep(1)
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.count_elements(6)
 
     def test_can_add_few_elements_and_save_then_add_few_elements_and_not_save(self, browser):
@@ -348,7 +348,7 @@ class TestOrderElementCreation:
         # page.save_order()  # не сохраняем!
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.count_elements(3)  # поэтому элементов должно быть 3
 
     def test_can_edit_element(self):
@@ -416,7 +416,7 @@ class TestOrderElementCreation:
         self.page.save_order()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         sett = ('F', 'testacc (0003)', 'MVZ 3', 'Вн заказ 1 (0001)',
                 'Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', '138,44', '34,61', 'Stuck')
@@ -435,7 +435,7 @@ class TestOrderElementCreation:
         # page.save_order()  # не сохраняем!
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.check_element_info()  # поэтому сверяем со старыми данными (дефолтными)
 
     def test_edit_element_then_save_then_edit_element_then_save_and_check(self, browser):
@@ -455,7 +455,7 @@ class TestOrderElementCreation:
         self.page.check_element_info()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         self.page.check_element_info()
 
     def test_edit_element_then_save_then_edit_element_then_not_save_and_check(self, browser):
@@ -475,7 +475,7 @@ class TestOrderElementCreation:
         self.page.check_element_info()
         OrderPage(browser, main_link).open()
         time.sleep(1)
-        self.page.go_to_order()
+        self.page.go_to_work()
         sett = ('F', 'testacc (0003)', 'MVZ 3', 'Вн заказ 1 (0001)',
                 'Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', '138,44', '34,61', 'Stuck')

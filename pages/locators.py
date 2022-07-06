@@ -14,6 +14,15 @@ class WorkPageLocators:
     MSGBOX2_CANCEL_BTN = (By.CSS_SELECTOR, '.el-button--default.el-button--small')
     MSGBOX2_DELETE_BTN = (By.CSS_SELECTOR, '.el-button--small.is-plain')
 
+    WORK_INFO = (By.CSS_SELECTOR, 'tbody tr')
+
+    WORK_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
+
+    WORK_ELEM_INFO = (By.CSS_SELECTOR, 'div.AppTable tbody tr')
+
+    DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
+    DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей
+
 
 class AuthPageLocators:
     EMAIL_INPUT = (By.CSS_SELECTOR, '.email input')
@@ -27,22 +36,11 @@ class OrderPageLocators:
     # order creation
     ORDER_NUMBER_INPUT = (By.CSS_SELECTOR, '#order-number-input input')
     ORDER_DATE_INPUT = (By.CSS_SELECTOR, '#order-date-input input')
-
     ORDER_SHOP_INPUT = (By.CSS_SELECTOR, '#order-shop-input input')
-    # ORDER_SHOP_DROPDOWN = (By.ID, 'order-shop-dropdown')
-    # ORDER_SHOP_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-shop-dropdown li')
-    # ORDER_SHOP_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-shop-dropdown li > span')
-
     ORDER_PROVIDER_INPUT = (By.CSS_SELECTOR, '#order-provider-input input')
-    # ORDER_PROVIDER_DROPDOWN = (By.ID, 'order-provider-dropdown')
-    # ORDER_PROVIDER_DROPDOWN_CONTENT = (By.CSS_SELECTOR, '#order-provider-dropdown li')
-    # ORDER_PROVIDER_DROPDOWN_CONTENT_SPAN = (By.CSS_SELECTOR, '#order-provider-dropdown li > span')
-
     ORDER_SAVE_BTN = (By.ID, 'order-save-btn')
-    ORDER_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
 
     # order info
-    ORDER_INFO = (By.CSS_SELECTOR, 'tbody tr')
     ORDER_INFO_NUMBER = (By.XPATH, '//tbody/tr[1]/td[1]//span/span')
     ORDER_INFO_DATE = (By.XPATH, '//tbody/tr[1]/td[2]//span/span')
     ORDER_INFO_PROVIDER = (By.XPATH, '//tbody/tr[1]/td[3]//span/span')
@@ -74,10 +72,8 @@ class OrderPageLocators:
     ORDER_ELEM_BOARD_INPUT = (By.CSS_SELECTOR, '#order-elem-board-input input')
     ORDER_ELEM_CELL_INPUT = (By.CSS_SELECTOR, '#order-elem-cell-input input')
     ORDER_ELEM_SAVE_BTN = (By.ID, 'order-elem-save-btn')
-    ORDER_ELEM_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
 
     # order element info
-    ORDER_ELEM_INFO = (By.CSS_SELECTOR, 'div.AppTable tbody tr')
     ORDER_ELEM_INFO_TYPE = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[2]//span/span')
     ORDER_ELEM_INFO_ACCOUNT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[3]//span/span')
     ORDER_ELEM_INFO_MVZ = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[4]//span/span')
@@ -89,9 +85,6 @@ class OrderPageLocators:
     ORDER_ELEM_INFO_UNIT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[10]//span/span')
     ORDER_DRAFT_DELETE_ELEM_BTN = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[11]/div/div')
 
-    DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
-    DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей
-
 
 class DeliveryPageLocators:
     CREATE_DELIVERY_BTN = (By.ID, 'delivery-create-btn')
@@ -102,7 +95,6 @@ class DeliveryPageLocators:
 
     DELIVERY_RESPONSIBLE_INPUT = (By.CSS_SELECTOR, "#delivery-responsible-input input")
     DELIVERY_SAVE_BTN = (By.ID, 'delivery-save-btn')
-    DELIVERY_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
 
     # delivery draft
     DELIVERY_DRAFT_DATE_INPUT = (By.CSS_SELECTOR, '#delivery-draft-date-input input')
@@ -111,7 +103,6 @@ class DeliveryPageLocators:
     DELIVERY_DRAFT_ADD_BTN = (By.ID, 'delivery-draft-add-btn')
 
     # delivery info
-    DELIVERY_INFO = (By.CSS_SELECTOR, 'tbody tr')
     DELIVERY_INFO_DATE = (By.XPATH, '//tbody/tr[1]/td[2]//span/span')
     DELIVERY_INFO_RESPONSIBLE = (By.XPATH, '//tbody/tr[1]/td[3]//span/span')
     DELIVERY_DELETE_BTN = (By.XPATH, '//tbody/tr[1]/td[4]/div[@class="cell"]')
@@ -125,10 +116,8 @@ class DeliveryPageLocators:
     DELIVERY_ELEM_BOARD_INPUT = (By.CSS_SELECTOR, '#delivery-elem-board-input input')
     DELIVERY_ELEM_CELL_INPUT = (By.CSS_SELECTOR, '#delivery-elem-cell-input input')
     DELIVERY_ELEM_SAVE_BTN = (By.ID, 'delivery-elem-save-btn')
-    DELIVERY_ELEM_CLOSE_BTN = (By.CSS_SELECTOR, 'button.el-dialog__headerbtn')
 
     # delivery element info
-    DELIVERY_ELEM_INFO = (By.CSS_SELECTOR, 'div.AppTable tbody tr')
     DELIVERY_ELEM_INFO_PRODUCT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[2]//span/span')
     DELIVERY_ELEM_INFO_COUNT = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[3]//span/span')
     DELIVERY_ELEM_INFO_STORAGE = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[4]//span/span')
@@ -137,6 +126,3 @@ class DeliveryPageLocators:
     DELIVERY_ELEM_INFO_BOARD = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[7]//span/span')
     DELIVERY_ELEM_INFO_CELL = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[8]//span/span')
     DELIVERY_DRAFT_DELETE_ELEM_BTN = (By.XPATH, '//div[@class="AppTable"]//tbody/tr[1]/td[9]/div/div')
-
-    DROPDOWN_CONTENT = (By.XPATH, '//div[@aria-hidden="false"]//li')
-    DROPDOWN_CONTENT_SPAN = (By.XPATH, '//div[@aria-hidden="false"]//li/span')  # для некоторых полей
