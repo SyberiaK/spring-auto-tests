@@ -92,6 +92,7 @@ class TestOrderCreation:
         self.page.edit_order(*sett)
         self.page.save_order()
 
+        sett = (f'EDITED_{self.order_number}', '30.03.2002', '123123')
         OrderPage(browser, main_link).open()
         self.page.check_order_info(*sett)
 
@@ -220,7 +221,7 @@ class TestOrderElementCreation:
         self.page.go_to_work()
         self.page.should_be_any_element()
 
-    @pytest.mark.begin
+    @pytest.mark.skip
     def test_save_then_check(self, browser):
         self.page.save_order()
         OrderPage(browser, main_link).open()
@@ -389,7 +390,7 @@ class TestOrderElementCreation:
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_expected_edited_element_equals_actual(self, browser):
         sett = ('F', 'Motoröl für FIAT 2015 Release der C-Serie'
                      ' in der maximalen Konfiguration (0004)', 4, 'testacc (0003)',
@@ -404,7 +405,7 @@ class TestOrderElementCreation:
 
         page.check_element_info(*sett)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_edit_element_then_save_and_check(self, browser):
         sett = ('F', 'Motoröl für FIAT 2015 Release der C-Serie'
                      ' in der maximalen Konfiguration (0004)', 4, 'testacc (0003)',
@@ -423,7 +424,7 @@ class TestOrderElementCreation:
 
         self.page.check_element_info(*sett)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_edit_element_then_not_save_and_check(self, browser):
         sett = ('F', 'Motoröl für FIAT 2015 Release der C-Serie'
                      ' in der maximalen Konfiguration (0004)', 4, 'testacc (0003)',
@@ -438,6 +439,7 @@ class TestOrderElementCreation:
         self.page.go_to_work()
         self.page.check_element_info()  # поэтому сверяем со старыми данными (дефолтными)
 
+    @pytest.mark.skip
     def test_edit_element_then_save_then_edit_element_then_save_and_check(self, browser):
         sett = ('F', 'Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 4, 'testacc (0003)', 'MVZ 3 (0002)', 'Вн заказ 1 (0001)', 34.61, 'Склад 1', 'Ряд 1',
@@ -458,6 +460,7 @@ class TestOrderElementCreation:
         self.page.go_to_work()
         self.page.check_element_info()
 
+    @pytest.mark.skip
     def test_edit_element_then_save_then_edit_element_then_not_save_and_check(self, browser):
         sett = ('F', 'Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 4, 'testacc (0003)', 'MVZ 3 (0002)', 'Вн заказ 1 (0001)', 34.61, 'Склад 1', 'Ряд 1',

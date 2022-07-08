@@ -244,7 +244,7 @@ class TestDeliveryElementCreation:
         self.page.go_to_work()
         self.page.should_be_any_element()
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_save_then_check(self, browser):
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
@@ -407,7 +407,7 @@ class TestDeliveryElementCreation:
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_expected_edited_element_equals_actual(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
@@ -419,7 +419,7 @@ class TestDeliveryElementCreation:
 
         page.check_element_info(*sett)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_edit_element_then_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
@@ -435,7 +435,7 @@ class TestDeliveryElementCreation:
 
         self.page.check_element_info(*sett)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_edit_element_then_not_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
@@ -448,7 +448,7 @@ class TestDeliveryElementCreation:
         self.page.go_to_work()
         self.page.check_element_info()  # поэтому сверяем со старыми данными (дефолтными)
 
-    # @pytest.mark.begin
+    @pytest.mark.skip
     def test_edit_element_then_save_then_edit_element_then_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
@@ -468,7 +468,7 @@ class TestDeliveryElementCreation:
         self.page.go_to_work()
         self.page.check_element_info()
 
-    @pytest.mark.begin
+    @pytest.mark.skip
     def test_edit_element_then_save_then_edit_element_then_not_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
                 '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
