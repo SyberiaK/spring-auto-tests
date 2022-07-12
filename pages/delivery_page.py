@@ -198,7 +198,8 @@ class DeliveryPage(WorkPage):
                        row: str = 'Reihe 1',
                        stack: str = 'Stack 1',
                        board: str = 'Board 1',
-                       cell: str = 'Cell 1'):
+                       cell: str = 'Cell 1',
+                       subcell: str = 'Подяейка 1'):
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_PRODUCT_INPUT).click()
         time.sleep(2)
         for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
@@ -256,6 +257,15 @@ class DeliveryPage(WorkPage):
         else:
             raise AssertionError(f'No cell found with this name: {cell}')
 
+        self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_SUBCELL_INPUT).click()
+        time.sleep(2)
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == subcell:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
+                break
+        else:
+            raise AssertionError(f'No subcell found with this name: {subcell}')
+
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_SAVE_BTN).click()
 
     def go_to_cancel_element(self):
@@ -310,8 +320,9 @@ class DeliveryPage(WorkPage):
                      row: str = None,
                      stack: str = None,
                      board: str = None,
-                     cell: str = None):
-        if not (product or count or storage or row or stack or board or cell):
+                     cell: str = None,
+                     subcell: str = None):
+        if not (product or count or storage or row or stack or board or cell or subcell):
             raise AssertionError(f'No edit')
         if product:
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_PRODUCT_INPUT).send_keys(Keys.CONTROL + "a")
@@ -330,8 +341,6 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_COUNT_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_COUNT_INPUT).send_keys(str(count))
         if storage:
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STORAGE_INPUT).send_keys(Keys.CONTROL + "a")
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STORAGE_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STORAGE_INPUT).click()
             time.sleep(2)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
@@ -341,8 +350,6 @@ class DeliveryPage(WorkPage):
             else:
                 raise AssertionError(f'No storage found with this name: {storage}')
         if row:
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_ROW_INPUT).send_keys(Keys.CONTROL + "a")
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_ROW_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_ROW_INPUT).click()
             time.sleep(2)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
@@ -352,8 +359,6 @@ class DeliveryPage(WorkPage):
             else:
                 raise AssertionError(f'No row found with this name: {row}')
         if stack:
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STACK_INPUT).send_keys(Keys.CONTROL + "a")
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STACK_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_STACK_INPUT).click()
             time.sleep(2)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
@@ -363,8 +368,6 @@ class DeliveryPage(WorkPage):
             else:
                 raise AssertionError(f'No stack found with this name: {stack}')
         if board:
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_BOARD_INPUT).send_keys(Keys.CONTROL + "a")
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_BOARD_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_BOARD_INPUT).click()
             time.sleep(2)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
@@ -374,8 +377,6 @@ class DeliveryPage(WorkPage):
             else:
                 raise AssertionError(f'No board found with this name: {board}')
         if cell:
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CELL_INPUT).send_keys(Keys.CONTROL + "a")
-            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CELL_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_CELL_INPUT).click()
             time.sleep(2)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
@@ -384,5 +385,14 @@ class DeliveryPage(WorkPage):
                     break
             else:
                 raise AssertionError(f'No cell found with this name: {cell}')
+        if subcell:
+            self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_SUBCELL_INPUT).click()
+            time.sleep(2)
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == subcell:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
+                    break
+            else:
+                raise AssertionError(f'No subcell found with this name: {subcell}')
 
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_SAVE_BTN).click()

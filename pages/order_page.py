@@ -97,7 +97,7 @@ class OrderPage(WorkPage):
                                                  f'expected: {expected_status}'
 
         if actual_status == 'Abgesagt':
-            self.go_to_order()
+            self.go_to_work()
             finish_btn_state = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_FINISH_BTN).get_attribute(
                 "disabled")
             cancel_btn_state = self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_CANCEL_BTN).get_attribute(
@@ -312,7 +312,8 @@ class OrderPage(WorkPage):
                        row: str = 'Reihe 1',
                        stack: str = 'Stack 1',
                        board: str = 'Board 1',
-                       cell: str = 'Cell 1'):
+                       cell: str = 'Cell 1',
+                       subcell: str = 'Подяейка 1'):
         self.browser.find_element(*OrderPageLocators.ORDER_ELEM_TYPE_INPUT).click()
         time.sleep(1)
         for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
@@ -417,6 +418,15 @@ class OrderPage(WorkPage):
         else:
             raise AssertionError(f'No cell found with this name: {cell}')
 
+        self.browser.find_element(*OrderPageLocators.ORDER_ELEM_SUBCELL_INPUT).click()
+        time.sleep(2)
+        for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+            if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == subcell:
+                self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
+                break
+        else:
+            raise AssertionError(f'No subcell found with this name: {subcell}')
+
         self.browser.find_element(*OrderPageLocators.ORDER_ELEM_SAVE_BTN).click()
 
     def go_to_cancel_element(self):
@@ -482,9 +492,10 @@ class OrderPage(WorkPage):
                      row: str = None,
                      stack: str = None,
                      board: str = None,
-                     cell: str = None):
+                     cell: str = None,
+                     subcell: str = None):
         if not (ttype or product or count or account or mvz
-                or inner or price or storage or row or stack or board or cell):
+                or inner or price or storage or row or stack or board or cell or subcell):
             raise AssertionError(f'No edit')
         if ttype:
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_TYPE_INPUT).click()
@@ -594,5 +605,14 @@ class OrderPage(WorkPage):
                     break
             else:
                 raise AssertionError(f'No cell found with this name: {cell}')
+        if subcell:
+            self.browser.find_element(*OrderPageLocators.ORDER_ELEM_SUBCELL_INPUT).click()
+            time.sleep(2)
+            for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
+                if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == subcell:
+                    self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
+                    break
+            else:
+                raise AssertionError(f'No subcell found with this name: {subcell}')
 
         self.browser.find_element(*OrderPageLocators.ORDER_ELEM_SAVE_BTN).click()
