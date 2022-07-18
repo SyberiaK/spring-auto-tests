@@ -70,8 +70,8 @@ class OrderPageLocators:
     ORDER_ELEM_ROW_INPUT = (By.CSS_SELECTOR, '#order-elem-row-input input')
     ORDER_ELEM_STACK_INPUT = (By.CSS_SELECTOR, '#order-elem-stack-input input')
     ORDER_ELEM_BOARD_INPUT = (By.CSS_SELECTOR, '#order-elem-board-input input')
-    ORDER_ELEM_CELL_INPUT = (By.XPATH, '//div[@id="order-elem-cell-input"][1]//input')
-    ORDER_ELEM_SUBCELL_INPUT = (By.XPATH, '//div[@id="order-elem-cell-input"][2]//input')
+    ORDER_ELEM_CELL_INPUT = (By.CSS_SELECTOR, '#order-elem-cell-input input')
+    ORDER_ELEM_SUBCELL_INPUT = (By.CSS_SELECTOR, '#order-elem-subcell-input input')
     ORDER_ELEM_SAVE_BTN = (By.ID, 'order-elem-save-btn')
 
     # order element info
@@ -115,8 +115,8 @@ class DeliveryPageLocators:
     DELIVERY_ELEM_ROW_INPUT = (By.CSS_SELECTOR, '#delivery-elem-row-input input')
     DELIVERY_ELEM_STACK_INPUT = (By.CSS_SELECTOR, '#delivery-elem-stack-input input')
     DELIVERY_ELEM_BOARD_INPUT = (By.CSS_SELECTOR, '#delivery-elem-board-input input')
-    DELIVERY_ELEM_CELL_INPUT = (By.XPATH, '//div[@id="delivery-elem-cell-input"][1]//input')
-    DELIVERY_ELEM_SUBCELL_INPUT = (By.XPATH, '//div[@id="delivery-elem-cell-input"][2]//input')
+    DELIVERY_ELEM_CELL_INPUT = (By.CSS_SELECTOR, '#delivery-elem-cell-input input')
+    DELIVERY_ELEM_SUBCELL_INPUT = (By.CSS_SELECTOR, '#delivery-elem-subcell-input input')
     DELIVERY_ELEM_SAVE_BTN = (By.ID, 'delivery-elem-save-btn')
 
     # delivery element info

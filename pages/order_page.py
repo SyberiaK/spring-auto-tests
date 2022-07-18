@@ -205,6 +205,7 @@ class OrderPage(WorkPage):
                 raise AssertionError(f'No provider found with this name: {provider}')
 
     def save_order(self):
+        time.sleep(1)
         self.browser.find_element(*OrderPageLocators.ORDER_DRAFT_SAVE_BTN).click()
         time.sleep(2)
 
@@ -434,11 +435,11 @@ class OrderPage(WorkPage):
 
     def check_element_info(self,
                            expected_type: str = 'K',
-                           expected_account: str = 'Regress sachkonto (003)',
+                           expected_account: str = 'Regress sachkonto',
                            expected_mvz: str = 'Double Regress MVZ',
-                           expected_inner: str = 'Double regress inner order (001)',
+                           expected_inner: str = 'Double regress inner order',
                            expected_product: str = 'Dichtung DN 65, NBR (blau), 71x81x5,0mmDichtung DN 65, NBR (blau),'
-                                                   ' 71x81x5,0mm Alle Werkstoffe entsp... (0001)',
+                                                   ' 71x81x5,0mm Alle Werkstoffe entsp',
                            expected_count: str = '3',
                            expected_netto: str = "48,00",
                            expected_price: str = "16,00",
@@ -455,10 +456,12 @@ class OrderPage(WorkPage):
         actual_unit = self.browser.find_element(*OrderPageLocators.ORDER_ELEM_INFO_UNIT).text
 
         assert actual_type == expected_type, f'Actual type: {actual_type}, expected: {expected_type}'
-        assert actual_account == expected_account, f'Actual account: {actual_account}, expected: {expected_account}'
+        assert actual_account.startswith(expected_account), \
+            f'Actual account: {actual_account}, expected: {expected_account}'
         assert actual_mvz == expected_mvz, f'Actual MVZ: {actual_mvz}, expected: {expected_mvz}'
-        assert actual_inner == expected_inner, f'Actual inner order: {actual_inner}, expected: {expected_inner}'
-        assert actual_product == expected_product, f'Actual product: {actual_product}, expected: {expected_product}'
+        assert actual_inner.startswith(expected_inner), \
+            f'Actual inner order: {actual_inner}, expected: {expected_inner}'
+        assert actual_product.startswith(expected_product), f'Actual product: {actual_product}, expected: {expected_product}'
         assert actual_count == expected_count, f'Actual count: {actual_count}, expected: {expected_count}'
         assert actual_netto == expected_netto, f'Actual netto: {actual_netto}, expected: {expected_netto}'
         assert actual_price == expected_price, f'Actual price: {actual_price}, expected: {expected_price}'
@@ -525,7 +528,7 @@ class OrderPage(WorkPage):
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT).send_keys(Keys.CONTROL + "a")
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_ACCOUNT_INPUT).click()
-            time.sleep(.5)
+            time.sleep(2)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
                 if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].text == account:
                     self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
@@ -536,7 +539,7 @@ class OrderPage(WorkPage):
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_MVZ_INPUT).send_keys(Keys.CONTROL + "a")
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_MVZ_INPUT).send_keys(Keys.DELETE)
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_MVZ_INPUT).click()
-            time.sleep(.5)
+            time.sleep(1)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT))):
                 if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].text == mvz:
                     self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()
@@ -607,7 +610,7 @@ class OrderPage(WorkPage):
                 raise AssertionError(f'No cell found with this name: {cell}')
         if subcell:
             self.browser.find_element(*OrderPageLocators.ORDER_ELEM_SUBCELL_INPUT).click()
-            time.sleep(2)
+            time.sleep(3)
             for i in range(len(self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN))):
                 if self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT_SPAN)[i].text == subcell:
                     self.browser.find_elements(*WorkPageLocators.DROPDOWN_CONTENT)[i].click()

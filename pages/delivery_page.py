@@ -113,6 +113,7 @@ class DeliveryPage(WorkPage):
             self.browser.find_element(*DeliveryPageLocators.DELIVERY_DRAFT_RESPONSIBLE_INPUT).send_keys(responsible)
 
     def save_delivery(self):
+        time.sleep(1)
         self.browser.find_element(*DeliveryPageLocators.DELIVERY_DRAFT_SAVE_BTN).click()
         time.sleep(2)
 
@@ -273,13 +274,14 @@ class DeliveryPage(WorkPage):
 
     def check_element_info(self,
                            expected_product: str = 'Dichtung DN 65, NBR (blau), 71x81x5,0mmDichtung DN 65, NBR (blau),'
-                                                   ' 71x81x5,0mm Alle Werkstoffe entsp... (0001)',
+                                                   ' 71x81x5,0mm Alle Werkstoffe entsp',
                            expected_count: str = '3',
                            expected_storage: str = 'Lager of Magazine №2',
                            expected_row: str = 'Reihe 1',
                            expected_stack: str = 'Stack 1',
                            expected_board: str = 'Board 1',
-                           expected_cell: str = 'Cell 1'):
+                           expected_cell: str = 'Cell 1',
+                           expected_subcell: str = 'Подяейка 1'):
         actual_product = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_PRODUCT).text
         actual_count = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_COUNT).text
         actual_storage = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_STORAGE).text
@@ -287,14 +289,17 @@ class DeliveryPage(WorkPage):
         actual_stack = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_STACK).text
         actual_board = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_BOARD).text
         actual_cell = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_CELL).text
+        actual_subcell = self.browser.find_element(*DeliveryPageLocators.DELIVERY_ELEM_INFO_SUBCELL).text
 
-        assert actual_product == expected_product, f'Actual product: {actual_product}, expected: {expected_product}'
+        assert actual_product.startswith(expected_product), \
+            f'Actual product: {actual_product}, expected: {expected_product}'
         assert actual_count == expected_count, f'Actual count: {actual_count}, expected: {expected_count}'
         assert actual_storage == expected_storage, f'Actual storage: {actual_storage}, expected: {expected_storage}'
         assert actual_row == expected_row, f'Actual row: {actual_row}, expected: {expected_row}'
         assert actual_stack == expected_stack, f'Actual stack: {actual_stack}, expected: {expected_stack}'
         assert actual_board == expected_board, f'Actual board: {actual_board}, expected: {expected_board}'
         assert actual_cell == expected_cell, f'Actual cell: {actual_cell}, expected: {expected_cell}'
+        assert actual_subcell == expected_subcell, f'Actual subcell: {actual_subcell}, expected: {expected_subcell}'
 
     def should_be_any_element(self):
         assert self.is_element_present(*WorkPageLocators.WORK_ELEM_INFO), f'No element found'

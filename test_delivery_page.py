@@ -244,7 +244,6 @@ class TestDeliveryElementCreation:
         self.page.go_to_work()
         self.page.should_be_any_element()
 
-    @pytest.mark.skip
     def test_save_then_check(self, browser):
         self.page.save_delivery()
         DeliveryPage(browser, delivery_link).open()
@@ -402,27 +401,24 @@ class TestDeliveryElementCreation:
 
     def test_edit_element(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
 
-    @pytest.mark.skip
     def test_expected_edited_element_equals_actual(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
-        self.page.save_delivery()
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
+        # self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
-        sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+        sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration',
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
+        self.page.check_element_info(*sett)
 
-        page.check_element_info(*sett)
-
-    @pytest.mark.skip
     def test_edit_element_then_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
@@ -430,15 +426,14 @@ class TestDeliveryElementCreation:
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
         self.page.go_to_work()
-        sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+        sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration',
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
 
         self.page.check_element_info(*sett)
 
-    @pytest.mark.skip
     def test_edit_element_then_not_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
@@ -448,16 +443,15 @@ class TestDeliveryElementCreation:
         self.page.go_to_work()
         self.page.check_element_info()  # поэтому сверяем со старыми данными (дефолтными)
 
-    @pytest.mark.skip
     def test_edit_element_then_save_then_edit_element_then_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
         sett = ('Dichtung DN 65, NBR (blau), 71x81x5,0mmDichtung DN 65, NBR (blau),'
                 ' 71x81x5,0mm Alle Werkstoffe entsp... (0001)',
-                '3', 'Lager of Magazine №2', 'Reihe 1', 'Stack 1', 'Board 1', 'Cell 1')
+                '3', 'Lager of Magazine №2', 'Reihe 1', 'Stack 1', 'Board 1', 'Cell 1', 'Подяейка 1')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
@@ -468,16 +462,15 @@ class TestDeliveryElementCreation:
         self.page.go_to_work()
         self.page.check_element_info()
 
-    @pytest.mark.skip
     def test_edit_element_then_save_then_edit_element_then_not_save_and_check(self, browser):
         sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
         sett = ('Dichtung DN 65, NBR (blau), 71x81x5,0mmDichtung DN 65, NBR (blau),'
                 ' 71x81x5,0mm Alle Werkstoffe entsp... (0001)',
-                '3', 'Lager of Magazine №2', 'Reihe 1', 'Stack 1', 'Board 1', 'Cell 1')
+                '3', 'Lager of Magazine №2', 'Reihe 1', 'Stack 1', 'Board 1', 'Cell 1', 'Подяейка 1')
         self.page.save_delivery()
         self.page.go_to_edit_element()
         self.page.edit_element(*sett)
@@ -487,7 +480,7 @@ class TestDeliveryElementCreation:
         DeliveryPage(browser, delivery_link).open()
         time.sleep(1)
         self.page.go_to_work()
-        sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration (0004)',
-                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1')
+        sett = ('Motoröl für FIAT 2015 Release der C-Serie in der maximalen Konfiguration',
+                '4', 'Склад 1', 'Ряд 1', 'Стеллаж 1', 'Полка 1', 'Ячейка 1', 'erwer')
 
         self.page.check_element_info(*sett)
